@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+	<PidData>
+		<![CDATA[<]]>
+			SCRIPT<![CDATA[>]]>alert('XSS');
+		<![CDATA[<]]>/SCRIPT<![CDATA[>]]>
+	</PidData>
