@@ -39,6 +39,7 @@ class RDServiceClient:
 		print "Initialized " + self.app_name + " for " + self.host + ":" + str(self.start_port) + " - " + str(self.end_port)
 
 	def get_request_templates(self):
+		#TODO: This is not the correct template. 
 		return "RDSERVICE / HTTP/1.1 " + CONST_CRLF+"HOST: " + self.host + ":" +str(self.current_port)+" "+CONST_CRLF+"EXT: "+self.app_name+" " + CONST_CRLF + CONST_CRLF		
 
 	def validate_discovery_headers(self,response):
@@ -129,6 +130,7 @@ class RDServiceClient:
 		f = open(attack_file_full_path,'rb')		
 		s = self.get_socket(self.host,self.current_port)
 		#attack_string = interface_id + " " +path + " HTTP/1.1 \r\nHOST: " + self.host + ":"+str(self.current_port)+" \r\n\r\n"
+		#TODO: This is not the correct template as per spec. The above is the correct one. 
 		attack_string = "RDSERVICE" + " " +path + " HTTP/1.1 \r\nHOST: " + self.host + ":"+str(self.current_port)+" \r\n\r\n"
 		#print "*************************"
 		#print attack_string
