@@ -138,14 +138,11 @@ class RDServiceClient:
 		while (l):    
 			s.sendall(l)
 			l = f.read(1024)
-
 		f.close()
 		try:
 			data = HTTPResponse(s)
 			data.begin()
-			s.shutdown()
-			s.close()
-			if data.status > 0:
+			if (data.status > 0):
 				print TEST_CASE_RESULT_TEMPLATE % ("RD Service withstood the attack " + attack_file_full_path, TEST_CASE_RESULT_FAILURE)
 		except:
 			print TEST_CASE_RESULT_TEMPLATE % ("RD Service withstood the attack " + attack_file_full_path, TEST_CASE_RESULT_PASS)
