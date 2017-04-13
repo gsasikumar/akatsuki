@@ -14,6 +14,6 @@ python rd_service_test
 Description
 -------------
 
-The package will detect the RD Service and will valudate it for headers and compliance to the spec.
+The package will detect the RD Service and will validate it for headers and compliance to the spec.
 
 
