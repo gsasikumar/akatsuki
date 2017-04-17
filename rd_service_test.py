@@ -24,7 +24,17 @@ if response != 0:
         for (root, dirnames, attack_files) in walk("xml_injection/Payload/"):
             for attack_file_name in attack_files:
                 rd_service_attacker.attack_service(verb,path,root+attack_file_name)
-        
+    
+    #Validate for other HTTP verb
+    rd_service_attacker.validate_for_regular_http_api_response("GET")
+    rd_service_attacker.validate_for_regular_http_api_response("HEAD")
+    rd_service_attacker.validate_for_regular_http_api_response("OPTIONS")
+    rd_service_attacker.validate_for_regular_http_api_response("POST")
+    rd_service_attacker.validate_for_regular_http_api_response("PUT")
+    rd_service_attacker.validate_for_regular_http_api_response("DELETE")
+    rd_service_attacker.validate_for_regular_http_api_response("TRACE")    
+    rd_service_attacker.validate_for_regular_http_api_response("CONNECT")    
+    rd_service_attacker.validate_for_regular_http_api_response("PATCH")
     #get the interface
     #for each of interface
     #take each xml file

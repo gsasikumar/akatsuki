@@ -38,9 +38,9 @@ class RDServiceClient:
 		self.get_request_templates()		
 		print "Initialized " + self.app_name + " for " + self.host + ":" + str(self.start_port) + " - " + str(self.end_port)
 
-	def get_request_templates(self):
+	def get_request_templates(self,verb='RDSERVICE'):
 		#TODO: This is not the correct template. 
-		return "RDSERVICE / HTTP/1.1 " + CONST_CRLF+"HOST: " + self.host + ":" +str(self.current_port)+" "+CONST_CRLF+"EXT: "+self.app_name+" " + CONST_CRLF + CONST_CRLF		
+		return verb + " * HTTP/1.1 " + CONST_CRLF+"HOST: " + self.host + ":" +str(self.current_port)+" "+CONST_CRLF+"EXT: "+self.app_name+" " + CONST_CRLF + CONST_CRLF		
 
 	def validate_discovery_headers(self,response):
 		headers={}
@@ -124,14 +124,29 @@ class RDServiceClient:
 			return data
 		except socket.error,exc:
 			print "Error Connecting to Port " + str(port)
-			return 0                                                
+			return 0
+
+	def validate_for_regular_http_api_response(self,request_verb):
+		try:
+			s = self.get_socket(self.host,self.current_port)
+			request_string = self.get_request_templates(request_verb)
+			#print request_string 
+			s.sendall(request_string)
+			data = HTTPResponse(s)
+			#data = (s.recv(self.total_buffer))
+			data.begin()									
+			s.shutdown(1)
+			s.close()
+			print TEST_CASE_RESULT_TEMPLATE % ("RD Service HTTP " +request_verb + " disabled verification " , TEST_CASE_RESULT_FAILURE)
+		except socket.error,exc:
+			print TEST_CASE_RESULT_TEMPLATE % ("RD Service HTTP " +request_verb + " disabled verification ", TEST_CASE_RESULT_PASS)		                                                
 
 	def attack_service(self,interface_id,path,attack_file_full_path):
 		f = open(attack_file_full_path,'rb')		
 		s = self.get_socket(self.host,self.current_port)
 		#attack_string = interface_id + " " +path + " HTTP/1.1 \r\nHOST: " + self.host + ":"+str(self.current_port)+" \r\n\r\n"
 		#TODO: This is not the correct template as per spec. The above is the correct one. 
-		attack_string = "RDSERVICE" + " " +path + " HTTP/1.1 \r\nHOST: " + self.host + ":"+str(self.current_port)+" \r\n\r\n"
+		attack_string = interface_id + " " +path + " HTTP/1.1 \r\nHOST: " + self.host + ":"+str(self.current_port)+" \r\n\r\n"
 		#print "*************************"
 		#print attack_string
 		#print "*************************"
